@@ -1,177 +1,197 @@
 # 🔍 Image Matching System — Hybrid Deep Learning Pipeline
 
-**Project by:** Ramswroop Ogra (12212024), IIIT Sonepat  
-**Based on:** PDF Report — Image Matching using Hybrid Deep Learning
+<p align="center">
+  <b>Advanced Computer Vision Project for Feature Matching & Geometric Verification</b><br>
+  <i>Inspired by SuperPoint · SuperGlue · LightGlue</i>
+</p>
 
 ---
 
-## 📁 Project Structure
+## 🚀 Live Demo
 
+👉 *(Add your deployed link here after deployment)*
+`https://your-app-name.streamlit.app`
+
+---
+
+## 📌 Overview
+
+This project implements a **multi-stage hybrid image matching pipeline** that detects and matches keypoints between two images with high accuracy.
+
+It combines **classical computer vision + deep learning-inspired techniques** to achieve:
+
+* ⚡ Fast performance on CPU
+* 🎯 High-quality feature matching
+* 🔍 Robustness to scale, rotation, and viewpoint changes
+
+---
+
+## 🧠 Pipeline Architecture
+
+```mermaid
+graph LR
+A[Input Images] --> B[Hybrid Feature Extraction]
+B --> C[Adaptive Matching]
+C --> D[Hierarchical Refinement]
+D --> E[RANSAC Filtering]
+E --> F[Final Matched Output]
 ```
-image_matching_project/
-├── app.py           # Streamlit UI (run this!)
-├── main.py          # Pipeline runner + CLI
-├── features.py      # Stage 1: Hybrid Feature Extraction
-├── matcher.py       # Stage 2+3+4: Attention + Refinement + RANSAC
-├── utils.py         # Helper functions
-├── requirements.txt # Dependencies
-└── README.md        # This file
-```
 
 ---
 
-## ⚡ Setup & Run (VS Code + Git Bash)
+## ⚙️ Core Components
 
-### Step 1: Open VS Code and Git Bash terminal
+### 🔹 1. Hybrid Feature Extraction
 
-Press `Ctrl + ~` in VS Code to open terminal, then switch to Git Bash.
+* **SIFT** → robust descriptors (simulating SuperPoint)
+* **ORB** → fast dense keypoints (simulating DISK)
+* Fusion → best of both worlds
 
 ---
 
-### Step 2: Create project folder
+### 🔹 2. Adaptive Attention Matching
+
+* Brute-force matching + Lowe’s Ratio Test
+* Simulated **attention mechanism**
+* **Early exit strategy** for speed optimization
+
+---
+
+### 🔹 3. Hierarchical Refinement
+
+* Multi-scale matching:
+
+  * 0.25x → coarse
+  * 0.5x → refine
+  * 1x → final
+
+---
+
+### 🔹 4. RANSAC Filtering
+
+* Removes incorrect matches
+* Keeps only **geometrically consistent matches**
+
+---
+
+## 🎯 Features
+
+* ✅ Hybrid feature extraction (SIFT + ORB)
+* ✅ Adaptive matching with confidence control
+* ✅ Multi-scale refinement pipeline
+* ✅ RANSAC-based outlier removal
+* ✅ Beautiful Streamlit UI
+* ✅ Real-time visualization of matches
+* ✅ Downloadable results
+
+---
+
+## 🖥️ Demo Output
+
+| Input Images | Matched Output                   |
+| ------------ | -------------------------------- |
+| 📷 Image 1   | 🟢 Correct matches (green lines) |
+| 📷 Image 2   | 🔴 Incorrect matches removed     |
+
+---
+
+## ⚙️ Tech Stack
+
+* **Python**
+* **OpenCV**
+* **NumPy**
+* **Streamlit**
+
+---
+
+## 🚀 Installation & Setup
+
+### 1️⃣ Clone Repository
 
 ```bash
-mkdir image_matching_project
-cd image_matching_project
+git clone https://github.com/ram-ogra/image-matching-system.git
+cd image-matching-system
 ```
 
 ---
 
-### Step 3: Create virtual environment
+### 2️⃣ Create Virtual Environment
 
 ```bash
-# Create virtual environment
 python -m venv venv
-
-# Activate it (Git Bash)
 source venv/Scripts/activate
-
-# You should see (venv) in your terminal now ✅
 ```
 
 ---
 
-### Step 4: Install dependencies
+### 3️⃣ Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-> ⚠️ This installs: streamlit, opencv-python, opencv-contrib-python, numpy, Pillow, matplotlib, scipy, scikit-image
-
 ---
 
-### Step 5: Run the Streamlit App
+### 4️⃣ Run Application
 
 ```bash
-streamlit run app.py
-```
-
-> Browser will open automatically at: `http://localhost:8501`
-
----
-
-## 🖥️ How to Use the App
-
-1. **Upload Image 1** — your reference image (e.g., Taj Mahal morning photo)
-2. **Upload Image 2** — your query image (e.g., Taj Mahal evening photo)
-3. Adjust settings in the **sidebar** if needed
-4. Click **"🚀 Run Image Matching Pipeline"**
-5. View results:
-   - Detected keypoints on each image
-   - Final matched lines (green = correct, red = outlier)
-   - Detailed stats for all 4 pipeline stages
-6. **Download** the output images
-
----
-
-## 🔧 CLI Usage (without UI)
-
-```bash
-# Basic run
-python main.py --img1 path/to/img1.jpg --img2 path/to/img2.jpg
-
-# With options
-python main.py \
-  --img1 images/taj1.jpg \
-  --img2 images/taj2.jpg \
-  --mode hybrid \
-  --nfeats 1500 \
-  --output result.jpg
-
-# Fast mode (skip hierarchical refinement)
-python main.py --img1 img1.jpg --img2 img2.jpg --no-hier
+python -m streamlit run app.py
 ```
 
 ---
 
-## 🧠 Pipeline Explanation
+## 🌍 Deployment
 
-### Stage 1: Hybrid Feature Extraction
-- **SIFT** (simulates SuperPoint): Scale/rotation invariant 128-D descriptors
-- **ORB** (simulates DISK): Dense binary features, ultra-fast
-- **Fusion**: Combine both, deduplicate overlapping keypoints
+This project can be deployed using:
 
-### Stage 2: Adaptive Attention Matching
-- **Self-Attention**: Refine each image's descriptors using context from neighbors
-- **Cross-Attention**: Find correspondences across both images
-- **Early Exit**: Stop when confidence > threshold (saves compute!)
-- **MNN + Ratio Test**: Mutual nearest neighbors + Lowe's ratio test
-
-### Stage 3: Hierarchical Refinement (0.25x → 0.5x → 1x)
-- **Coarse (0.25x)**: Find approximate correspondences at low resolution
-- **Medium (0.5x)**: Refine with MLP-based sub-pixel correction
-- **Fine (1.0x)**: Final sub-pixel accuracy using cornerSubPix
-
-### Stage 4: Post-processing (RANSAC)
-- **RANSAC Homography**: Remove geometrically inconsistent matches
-- **Inlier selection**: Keep only verified matches
-- **Output**: Clean match visualization (green lines)
+* 🔹 Streamlit Cloud (recommended)
+* 🔹 Render
 
 ---
 
-## ⚙️ Performance Tips (i5 CPU laptop)
+## ⚡ Performance Optimization (CPU Friendly)
 
-| Setting | Fast | Balanced | Best Quality |
-|---------|------|----------|--------------|
-| Keypoints | 500 | 1000 | 2000 |
-| Attn Layers | 3 | 6 | 9 |
-| Image Size | 512 | 768 | 1024 |
-| Hierarchical | OFF | ON | ON |
-| Expected Time | ~2s | ~5s | ~10s |
+| Mode         | Keypoints | Time    |
+| ------------ | --------- | ------- |
+| Fast         | 500       | ~2 sec  |
+| Balanced     | 1000      | ~5 sec  |
+| High Quality | 2000      | ~10 sec |
 
 ---
 
-## 📊 Expected Results
+## 📚 Concepts Covered
 
-For two photos of the same building:
-- **Keypoints detected**: 500–2000 per image
-- **Raw matches**: 100–500
-- **Inlier matches**: 50–300 (depends on similarity)
-- **Inlier ratio**: 60–90%
-- **Total time (CPU)**: 3–10 seconds
-
----
-
-## 🐛 Troubleshooting
-
-**"No matches found"**
-→ Try images with more overlap (>30% shared area)
-
-**"SIFT_create error"**
-→ Run: `pip install opencv-contrib-python`
-
-**Very slow on CPU**
-→ Set Image Size to 512, Keypoints to 500, Layers to 3, disable Hierarchical
-
-**ModuleNotFoundError**
-→ Make sure venv is activated: `source venv/Scripts/activate`
+* Feature Detection (SIFT, ORB)
+* Descriptor Matching
+* Lowe’s Ratio Test
+* RANSAC
+* Multi-scale Image Processing
+* Computer Vision Geometry
 
 ---
 
-## 📚 References
+## 👨‍💻 Author
 
-1. Sarlin et al. (2020) — SuperGlue: CVPR 2020
-2. DeTone et al. (2018) — SuperPoint: CVPR 2018  
-3. Lowe (2004) — SIFT: IJCV 2004
-4. Rublee et al. (2011) — ORB: ICCV 2011
+**Ramswroop Ogra**
+🎓 IIIT Sonepat
+💻 B.Tech IT
+
+---
+
+## ⭐ Support
+
+If you found this project helpful:
+
+👉 Give it a ⭐ on GitHub
+👉 Share with others
+
+---
+
+## 📌 Future Improvements
+
+* Deep learning integration (SuperPoint, LightGlue)
+* GPU acceleration
+* Real-time video matching
+* 3D reconstruction support
+
+---
