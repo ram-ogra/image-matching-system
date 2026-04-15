@@ -1,17 +1,13 @@
 # 🔍 Image Matching System — Hybrid Deep Learning Pipeline
 
+# 🔍 Image Matching System — Hybrid Deep Learning Pipeline
+
+[![Live Demo](https://img.shields.io/badge/Live-Demo-green)](https://image-matching-system.streamlit.app)
+
 <p align="center">
   <b>Advanced Computer Vision Project for Feature Matching & Geometric Verification</b><br>
   <i>Inspired by SuperPoint · SuperGlue · LightGlue</i>
 </p>
-
----
-
-## 🚀 Live Demo
-
-👉 *(Add your deployed link here after deployment)*
-`https://your-app-name.streamlit.app`
-
 ---
 
 ## 📌 Overview
