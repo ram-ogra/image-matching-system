@@ -1,7 +1,5 @@
 # 🔍 Image Matching System — Hybrid Deep Learning Pipeline
 
-# 🔍 Image Matching System — Hybrid Deep Learning Pipeline
-
 [![Live Demo](https://img.shields.io/badge/Live-Demo-green)](https://image-matching-system.streamlit.app)
 
 <p align="center">
